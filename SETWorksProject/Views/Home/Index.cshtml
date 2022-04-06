@@ -14,6 +14,7 @@
             <tr>
                 <th scope="col">Rocket Name</th>
                 <th scope="col">Date</th>
+                <th scope="col">UTC Time</th>
                 <th scope="col">CST Time</th>
                 <th scope="col">Was it a success?</th>
                 <th scope="col">Payload Rank</th>
@@ -29,7 +30,9 @@
                 <td>
                     @mission.Date
                 </td>
-                
+                <td>
+                    @mission.UTCTIME
+                </td>
                 <td>
                     @mission.Time
                 </td>
