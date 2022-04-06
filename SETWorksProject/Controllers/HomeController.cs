@@ -36,14 +36,14 @@ public class HomeController : Controller
 
                 readTask.Wait();
 
-
+                //parse JSON
                 List<Root> myDeserializedClass = JsonSerializer.Deserialize<List<Root>>(readTask.Result);
-
-                //myDeserializedClass.name;
 
                 
 
+                
 
+                //build new mission object for each returned launch
                 foreach (Root root in myDeserializedClass)
                 {
                     var utcdate = root.date_utc;
@@ -54,9 +54,15 @@ public class HomeController : Controller
                     Mission mission = new();
                     mission.RocketName = rocketName;
                     mission.WasSuccess = wasSuccess;
+
+
                     mission.Date = utcdate.ToShortDateString();
                     mission.UTCTIME = utcdate.ToShortTimeString();
+
+                    //converst utc to cst
                     mission.Time = TimeZoneInfo.ConvertTimeFromUtc(utcdate, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time")).ToShortTimeString();
+
+                    //each payload is a list of payload Ids. Im not sure if there are multiple associated with one of these launches but just in case we'll call our GetPayLoad mass function to grab those from the api and sum them together
                     mission.Mass = 0;
                     foreach (var payload in root.payloads)
                     {
@@ -73,14 +79,14 @@ public class HomeController : Controller
 
 
 
-
+                //this code ranks the mass with highest mass as rank one 
                 newlist = list.OrderBy(o => o.Mass).Reverse().ToList();
 
                 foreach (var item in list)
                 {
                     int rank = newlist.IndexOf(item) + 1;
                     item.MassRank = rank.ToString();
-
+                    //some payloads have mass 0 or null we'll just call these as rank N/A
                     if (item.Mass == 0 || item.Mass == null)
                     {
                         item.MassRank = "N/A";
@@ -108,10 +114,11 @@ public class HomeController : Controller
     {
         using (var client = new HttpClient())
         {
-            //string urlstring = "https://api.spacexdata.com/v4/payloads/" + id;
+            //the api url string is like this "https://api.spacexdata.com/v4/payloads/" + id;
 
             client.BaseAddress = new Uri("https://api.spacexdata.com/v4/payloads/");
-            //HTTP GET
+            
+            //get the payload with the specified id
             var responseTask = client.GetAsync(id);
             responseTask.Wait();
 
@@ -126,7 +133,7 @@ public class HomeController : Controller
                 Payload deserializedPayload = JsonSerializer.Deserialize<Payload>(readTask.Result);
 
                 
-                
+                //some of these payloads have null masses or 0 mass
 
                 return deserializedPayload.mass_kg;
 
