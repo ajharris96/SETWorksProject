@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<Mission>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+
+
+
+    <table class="table table-secondary">
+        <thead>
+            <tr>
+                <th scope="col">Rocket Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">CST Time</th>
+                <th scope="col">Was it a success?</th>
+                <th scope="col">Payload Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Mission mission in Model)
+            {
+            <tr>
+                <td>
+                    @mission.RocketName
+                </td>
+                <td>
+                    @mission.Date
+                </td>
+                
+                <td>
+                    @mission.Time
+                </td>
+                <td>
+                    @if (mission.WasSuccess == null)
+                {
+                        <p>Not launched yet</p>
+                }
+                else if ((bool)mission.WasSuccess)
+                {
+                        <p>Yes</p>
+                }
+                else
+                {
+                        <p>No</p>
+                }
+                </td>
+                <td>
+                    @mission.MassRank
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
