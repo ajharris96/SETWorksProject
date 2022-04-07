@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SETWorksProject.Models;
 using System.Collections.Generic;
-using static SETWorksProject.Models.JsonDeserialized;
+using static SETWorksProject.Models.RocketJsonDeserialized;
 using static SETWorksProject.Models.PayloadDeserialization;
 
 namespace SETWorksProject.Controllers;
@@ -37,22 +37,22 @@ public class HomeController : Controller
                 readTask.Wait();
 
                 //parse JSON
-                List<Root> myDeserializedClass = JsonSerializer.Deserialize<List<Root>>(readTask.Result);
+                List<RocketLaunch> deserializedRockets = JsonSerializer.Deserialize<List<RocketLaunch>>(readTask.Result);
 
                 
 
                 
 
                 //build new mission object for each returned launch
-                foreach (Root root in myDeserializedClass)
+                foreach (RocketLaunch rocketLaunch in deserializedRockets)
                 {
-                    var utcdate = root.date_utc;
+                    var utcdate = rocketLaunch.date_utc;
                     
-                    var rocketName = root.name;
-                    var wasSuccess = root.success;
+                    var rocketName = rocketLaunch.name;
+                    var wasSuccess = rocketLaunch.success;
 
                     Mission mission = new();
-                    mission.Pic = root.links.patch.small;
+                    mission.Pic = rocketLaunch.links.patch.small;
                     mission.RocketName = rocketName;
                     mission.WasSuccess = wasSuccess;
 
@@ -65,7 +65,7 @@ public class HomeController : Controller
 
                     //each payload is a list of payload Ids. Im not sure if there are multiple associated with one of these launches but just in case we'll call our GetPayLoad mass function to grab those from the api and sum them together
                     mission.Mass = 0;
-                    foreach (var payload in root.payloads)
+                    foreach (var payload in rocketLaunch.payloads)
                     {
                         mission.Mass += GetPayloadMass(payload);
                     }

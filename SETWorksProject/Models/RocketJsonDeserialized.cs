@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SETWorksProject.Models
 {
-	public class JsonDeserialized
+	public class RocketJsonDeserialized
 	{
         public class Patch
         {
@@ -48,7 +48,7 @@ namespace SETWorksProject.Models
             public string landpad { get; set; }
         }
 
-        public class Root
+        public class RocketLaunch
         {
             public object fairings { get; set; }
             public Links links { get; set; }
@@ -80,7 +80,7 @@ namespace SETWorksProject.Models
         }
 
 
-        public JsonDeserialized()
+        public RocketJsonDeserialized()
 		{
 		}
 	}
