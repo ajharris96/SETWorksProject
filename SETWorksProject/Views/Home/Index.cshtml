@@ -12,6 +12,7 @@
     <table class="table table-secondary">
         <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Rocket Name</th>
                 <th scope="col">Date</th>
                 <th scope="col">UTC Time</th>
@@ -24,6 +25,16 @@
             @foreach (Mission mission in Model)
             {
             <tr>
+                <td>
+                    @if (mission.Pic != null)
+                    {
+                        <img src="@mission.Pic" alt="logo" style="height:100px;width:100px;"/>
+                    }
+                    else
+                    {
+                        <img src="https://i.imgur.com/qT6flNx.png" alt="logo" style="height:100px;width:100px;border-radius:20px;" />
+                    }
+                </td>
                 <td>
                     @mission.RocketName
                 </td>
@@ -38,17 +49,17 @@
                 </td>
                 <td>
                     @if (mission.WasSuccess == null)
-                {
+                    {
                         <p>Not launched yet</p>
-                }
-                else if ((bool)mission.WasSuccess)
-                {
+                    }
+                    else if ((bool)mission.WasSuccess)
+                    {
                         <p>Yes</p>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         <p>No</p>
-                }
+                    }
                 </td>
                 <td>
                     @mission.MassRank

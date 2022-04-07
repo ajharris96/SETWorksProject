@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-
+        
         List<Mission> list = new();
         List<Mission> newlist = new();
 
@@ -52,6 +52,7 @@ public class HomeController : Controller
                     var wasSuccess = root.success;
 
                     Mission mission = new();
+                    mission.Pic = root.links.patch.small;
                     mission.RocketName = rocketName;
                     mission.WasSuccess = wasSuccess;
 
@@ -94,7 +95,7 @@ public class HomeController : Controller
                 }
 
 
-
+                
 
 
             }

@@ -10,6 +10,7 @@ namespace SETWorksProject.Models
 		public bool? WasSuccess { get; set; }
 		public string MassRank { get; set; }
 		public double? Mass { get; set; }
+		public string? Pic { get; set; }
 
 
 		public Mission()
